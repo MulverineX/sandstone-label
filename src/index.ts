@@ -19,9 +19,9 @@ export class LabelClass {
    */
   public description: string | boolean = false;
 
-  public LabelHolder = (entity: SelectorClass<true> | '@s' | '@p' | '@r') => {
+  public LabelHolder (entity: SelectorClass<true> | '@s' | '@p' | '@r') {
     if (typeof entity === 'string') 
-      return new EntityLabel(Selector(entity) as SelectorClass<true>, this);
+      return new EntityLabel(Selector(entity), this);
     else
       return new EntityLabel(entity, this);
   }
