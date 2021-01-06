@@ -1,9 +1,9 @@
-import { tag } from "sandstone/commands";
-import { Selector, SelectorClass } from "sandstone/variables";
-import { _ } from "sandstone/_internals";
+import { tag } from 'sandstone/commands';
+import { Selector, SelectorClass } from 'sandstone/variables';
+import { _ } from 'sandstone/_internals';
 
-import { ConditionType } from "sandstone/_internals/flow/conditions";
-import { SelectorProperties } from "sandstone/_internals/variables/selector";
+import { ConditionType } from 'sandstone/_internals/flow/conditions';
+import { SelectorProperties } from 'sandstone/_internals/variables/selector';
 
 /**
  * Label tag (/tag) handler
