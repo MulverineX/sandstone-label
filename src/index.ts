@@ -39,15 +39,20 @@ export class LabelClass {
 }
 
 export class EntityLabel {
+
+  /** Label */
   public label: LabelClass;
 
+  /**
+   * Selects entity with the label
+   */
   public selector: SelectorClass<true>;
   
+  /**
+   * Selects entity
+   */
   public originalSelector: SelectorClass<true>;
 
-  /**
-   * Test for label on entity
-   */
   public _toMinecraftCondition() {
     return { value: ['if', 'entity', this.selector.toString()] as any[] };
   };
@@ -61,29 +66,34 @@ export class EntityLabel {
   public add = () => tag(this.originalSelector).add(this.label.name);
 
   /**
-   * Set label on/off for entity
-   */
-  public set = (set: boolean | ConditionType) => {
-    if (typeof set === 'boolean') {
-      if (set) tag(this.originalSelector).add(this.label.name);
-
-      else tag(this.originalSelector).remove(this.label.name);
-    } else {
-      _.if(set as ConditionType, () => tag(this.originalSelector).add(this.label.name))
-
-      .else(() => tag(this.originalSelector).remove(this.label.name));
-    }
-  };
-
-  /**
    * Remove label from entity
    */
   public remove = () => tag(this.originalSelector).remove(this.label.name);
 
   /**
+   * Set label on/off for entity
+   */
+  public set (set: boolean | ConditionType) {
+    if (typeof set === 'boolean') {
+      if (set) this.add();
+      else this.remove();
+    }
+    else _.if(set, () => this.add())
+    .else(() => this.remove());
+  };
+
+  /**
+   * Toggle label on/off for entity
+   */
+  public toggle() {
+    _.if(this.test, () => this.remove())
+    .else(() => this.add())
+  }
+
+  /**
    * Contains the selector, and the name/description of the Label (eg. 'Whether @s has the label wasd:is_walking; Whether the player is not mounted')
    */
-  public toString = () => `Whether ${this.originalSelector.toString()} has the label ${this.label.toString()}`
+  public toString = () => `Whether ${this.originalSelector.toString()} has the label ${this.label.toString()}`;
 
   constructor (entity: SelectorClass<true>, label: LabelClass) {
     this.originalSelector = entity;
@@ -109,16 +119,21 @@ export class EntityLabel {
  * @param label Label/tag name
  * @param description Label description (optional)
  */
-export function newLabel(label: string, description: string | false = false) {
+export function createLabel(label: string, description: string | false = false) {
   return new LabelClass(label, description);
 }
+
+type input = LabelClass | string;
+
+const self = (label: input) => 
+  (typeof label === 'string' ? createLabel(label) : label).LabelHolder('@s');
 
 /**
  * Adds label to `@s`
  * @param label Label
  */
-export function addLabel (label: LabelClass) {
-  const target = label.LabelHolder('@s');
+export function addLabel (label: input) {
+  const target = self(label);
   target.add();
   return target;
 };
@@ -127,8 +142,8 @@ export function addLabel (label: LabelClass) {
  * Removes label from `@s`
  * @param label Label
  */
-export function removeLabel(label: LabelClass) {
-  const target = label.LabelHolder('@s');
+export function removeLabel(label: input) {
+  const target = self(label);
   target.remove();
   return target;
 }
@@ -137,6 +152,6 @@ export function removeLabel(label: LabelClass) {
  * Test for label on `@s`
  * @param label Label
  */
-export function hasLabel(label: LabelClass) {
-  return label.LabelHolder('@s').test
+export function hasLabel(label: LabelClass | string) {
+  return self(label).test
 }
