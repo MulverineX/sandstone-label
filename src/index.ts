@@ -1,9 +1,10 @@
 import { tag } from 'sandstone/commands';
 import { Selector, SelectorClass } from 'sandstone/variables';
 import { _ } from 'sandstone/_internals';
-
 import { ConditionType } from 'sandstone/_internals/flow/conditions';
 import { SelectorProperties } from 'sandstone/_internals/variables/selector';
+
+type SingleEntity = SelectorClass<true, boolean>;
 
 /**
  * Label tag (/tag) handler
@@ -19,7 +20,7 @@ export class LabelClass {
    */
   public description: string | boolean = false;
 
-  public LabelHolder (entity: SelectorClass<true> | '@s' | '@p' | '@r') {
+  public LabelHolder (entity: SingleEntity | '@s' | '@p' | '@r') {
     if (typeof entity === 'string') 
       return new EntityLabel(Selector(entity), this);
     else
@@ -46,12 +47,12 @@ export class EntityLabel {
   /**
    * Selects entity with the label
    */
-  public selector: SelectorClass<true>;
+  public selector: SingleEntity;
   
   /**
    * Selects entity
    */
-  public originalSelector: SelectorClass<true>;
+  public originalSelector: SingleEntity;
 
   public _toMinecraftCondition() {
     return { value: ['if', 'entity', this.selector.toString()] as any[] };
@@ -95,7 +96,7 @@ export class EntityLabel {
    */
   public toString = () => `Whether ${this.originalSelector.toString()} has the label ${this.label.toString()}`;
 
-  constructor (entity: SelectorClass<true>, label: LabelClass) {
+  constructor (entity: SingleEntity, label: LabelClass) {
     this.originalSelector = entity;
     this.label = label;
 
@@ -136,7 +137,7 @@ export function addLabel (label: input) {
   const target = self(label);
   target.add();
   return target;
-};
+}
 
 /**
  * Removes label from `@s`
@@ -148,10 +149,22 @@ export function removeLabel(label: input) {
   return target;
 }
 
+export function setLabel (label: input, set: boolean | ConditionType) {
+  const target = self(label);
+  target.set(set);
+  return target;
+}
+
+export function toggleLabel (label: input) {
+  const target = self(label);
+  target.toggle();
+  return target;
+}
+
 /**
  * Test for label on `@s`
  * @param label Label
  */
-export function hasLabel(label: LabelClass | string) {
+export function hasLabel(label: input) {
   return self(label).test
 }
