@@ -1,6 +1,6 @@
 {
   "name": "smc-label",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A data pack library created for Sandstone",
   "keywords": [],
   "author": "MulverineX",
@@ -9,7 +9,7 @@
     "url": "https://github.com/MulverineX/smc-label.git"
   },
   "license": "CC0-1.0",
-  "index": "build/index.js",
+  "main": "build/index.js",
   "types": "build/index.d.ts",
   "peerDependencies": {
     "sandstone": "^0.8.7"
