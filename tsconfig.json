@@ -9,7 +9,7 @@
     "esModuleInterop": false,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": false,
-    "noEmit": true,
+    "noEmit": false,
     "skipLibCheck": true,
     "outDir": "build"
   },

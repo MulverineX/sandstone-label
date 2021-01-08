@@ -1,4 +1,6 @@
-# Sandstone project
+# Label
+
+Usage Examples: [smc-wasd](https://github.com/MulverineX/wasd_arithmetic)
 
 To build the datapack, run:
 ```ts

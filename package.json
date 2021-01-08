@@ -1,15 +1,17 @@
 {
-  "name": "label",
+  "name": "smc-label",
   "version": "1.0.0",
-  "description": "A data pack created with Sandstone",
-  "scripts": {
-    "watch": "sand watch",
-    "build": "sand build"
-  },
+  "description": "A data pack library created for Sandstone",
   "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
+  "author": "MulverineX",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MulverineX/smc-label.git"
+  },
+  "license": "CC0-1.0",
+  "index": "build/index.js",
+  "types": "build/index.d.ts",
+  "peerDependencies": {
     "sandstone": "^0.8.7"
   },
   "devDependencies": {
