@@ -14,3 +14,11 @@ execute if score cond_1 sandstone matches 0 run tag @s[tag=testing] remove testi
 # Test for Label
 scoreboard players set cond_2 sandstone 0
 execute if entity @s[tag=testing] run function label:test/if_3
+# Pig test
+tag @e[tag=testing, limit=1, type=minecraft:pig] add testing
+scoreboard players set cond_3 sandstone 0
+execute if entity @e[tag=testing, limit=1, type=minecraft:pig] run function label:test/if_4
+# Pig toggle
+scoreboard players set cond_4 sandstone 0
+execute if entity @e[tag=testing, limit=1, type=minecraft:pig] run function label:test/if_5
+execute if score cond_4 sandstone matches 0 run tag @e[tag=testing, limit=1, type=minecraft:pig] add testing

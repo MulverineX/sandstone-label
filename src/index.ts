@@ -187,4 +187,12 @@ MCFunction('test', () => {
 
   comment('Test for Label');
   _.if(hasLabel(test), () => say('hi'));
+
+  const pig_test = test.LabelHolder(Selector('@e', { limit: 1, type: 'minecraft:pig' }));
+
+  comment('Pig test');
+  pig_test.add();
+  _.if(pig_test, () => say('oink'));
+  comment('Pig toggle');
+  pig_test.toggle();
 })
