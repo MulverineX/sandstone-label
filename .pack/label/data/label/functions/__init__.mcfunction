@@ -1,0 +1,1 @@
+scoreboard objectives add sandstone dummy [{"text": "Sandstone", "color": "gold"}, " internals"]
