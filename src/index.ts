@@ -1,4 +1,5 @@
-import { tag } from 'sandstone/commands';
+import { say, tag } from 'sandstone/commands';
+import { MCFunction } from 'sandstone/core';
 import { Selector, SelectorClass } from 'sandstone/variables';
 import { _ } from 'sandstone/_internals';
 import { ConditionType } from 'sandstone/_internals/flow/conditions';
@@ -13,7 +14,7 @@ export class LabelClass {
   /**
    * Label Tag name
    */
-  public name;
+  public name: string;
 
   /**
    * Label Description (optional)
@@ -168,3 +169,9 @@ export function toggleLabel (label: input) {
 export function hasLabel(label: input) {
   return self(label).test
 }
+
+MCFunction('test', () => {
+  const test = createLabel('testing');
+
+  _.if(hasLabel(test), () => say('hi'))
+})
