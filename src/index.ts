@@ -1,5 +1,5 @@
-import { say, tag } from 'sandstone/commands';
-import { MCFunction } from 'sandstone/core';
+import { comment, say, tag } from 'sandstone/commands';
+import { MCFunction, Predicate } from 'sandstone/core';
 import { Selector, SelectorClass } from 'sandstone/variables';
 import { _ } from 'sandstone/_internals';
 import { ConditionType } from 'sandstone/_internals/flow/conditions';
@@ -170,8 +170,21 @@ export function hasLabel(label: input) {
   return self(label).test
 }
 
-MCFunction('test', () => {
-  const test = createLabel('testing');
+const test = createLabel('testing');
 
-  _.if(hasLabel(test), () => say('hi'))
+MCFunction('test', () => {
+  comment('Basics')
+  addLabel(test);
+  removeLabel(test);
+
+  comment('Toggle');
+  toggleLabel(test);
+
+  comment('Set Basic');
+  setLabel(test, false);
+  comment('Set from Condition');
+  setLabel(test, Predicate('test', { condition: 'minecraft:random_chance', chance: .5 }));
+
+  comment('Test for Label');
+  _.if(hasLabel(test), () => say('hi'));
 })
