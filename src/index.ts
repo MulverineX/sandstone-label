@@ -1,3 +1,4 @@
+import { cloneDeep } from 'lodash';
 import { tag } from 'sandstone/commands';
 import { Selector, SelectorClass } from 'sandstone/variables';
 import { _ } from 'sandstone/_internals';
@@ -97,7 +98,7 @@ export class EntityLabel {
   public toString = () => `Whether ${this.originalSelector.toString()} has the label ${this.label.toString()}`;
 
   constructor (entity: SingleEntity, label: LabelClass) {
-    this.originalSelector = entity;
+    this.originalSelector = cloneDeep(entity);
     this.label = label;
 
     if (entity.arguments) {
