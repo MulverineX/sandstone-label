@@ -13,7 +13,7 @@ export class LabelClass {
   /**
    * Label Tag name
    */
-  public name;
+  public name: string;
 
   /**
    * Label Description (optional)
