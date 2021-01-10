@@ -1,6 +1,6 @@
 {
   "name": "smc-label",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A data pack library created for Sandstone",
   "keywords": [],
   "author": "MulverineX",
@@ -16,14 +16,10 @@
   },
   "devDependencies": {
     "@types/node": "^14.14.20",
-    "@types/lodash": "^4.14.167",
     "sandstone-cli": "^0.2.7",
     "typescript": "^4.1.3"
   },
   "engines": {
     "node": ">=14.0.0"
-  },
-  "dependencies": {
-    "lodash": "^4.17.20"
   }
 }
