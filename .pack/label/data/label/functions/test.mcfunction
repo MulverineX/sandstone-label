@@ -1,24 +1,22 @@
 # Basics
-tag @s[tag=testing] add testing
-tag @s[tag=testing] remove testing
+tag @s add testing
+tag @s remove testing
 # Toggle
-scoreboard players set cond_0 sandstone 0
-execute if entity @s[tag=testing] run function label:test/if
-execute if score cond_0 sandstone matches 0 run tag @s[tag=testing] add testing
+scoreboard players reset cond_0 sandstone
+execute store success score cond_0 sandstone if entity @s[tag=testing] run tag @s remove testing
+execute if score cond_0 sandstone matches 0.. run tag @s add testing
 # Set Basic
-tag @s[tag=testing] remove testing
+tag @s remove testing
 # Set from Condition
-scoreboard players set cond_1 sandstone 0
-execute if predicate label:test run function label:test/if_2
-execute if score cond_1 sandstone matches 0 run tag @s[tag=testing] remove testing
+scoreboard players reset cond_1 sandstone
+execute store success score cond_1 sandstone if predicate label:test run tag @s add testing
+execute if score cond_1 sandstone matches 0.. run tag @s remove testing
 # Test for Label
-scoreboard players set cond_2 sandstone 0
-execute if entity @s[tag=testing] run function label:test/if_3
+execute if entity @s[tag=testing] run say hi
 # Pig test
-tag @e[tag=testing, limit=1, type=minecraft:pig] add testing
-scoreboard players set cond_3 sandstone 0
-execute if entity @e[tag=testing, limit=1, type=minecraft:pig] run function label:test/if_4
+tag @e[limit=1, type=minecraft:pig] add testing
+execute if entity @e[tag=testing, limit=1, type=minecraft:pig] run say oink
 # Pig toggle
-scoreboard players set cond_4 sandstone 0
-execute if entity @e[tag=testing, limit=1, type=minecraft:pig] run function label:test/if_5
-execute if score cond_4 sandstone matches 0 run tag @e[tag=testing, limit=1, type=minecraft:pig] add testing
+scoreboard players reset cond_4 sandstone
+execute store success score cond_4 sandstone if entity @e[tag=testing, limit=1, type=minecraft:pig] run tag @e[limit=1, type=minecraft:pig] remove testing
+execute if score cond_4 sandstone matches 0.. run tag @e[limit=1, type=minecraft:pig] add testing

@@ -5,6 +5,8 @@ import { _ } from 'sandstone/_internals';
 import { ConditionType } from 'sandstone/_internals/flow/conditions';
 import { SelectorProperties } from 'sandstone/_internals/variables/selector';
 
+import { cloneDeep } from 'lodash';
+
 type SingleEntity = SelectorClass<true, boolean>;
 
 /**
@@ -98,21 +100,24 @@ export class EntityLabel {
   public toString = () => `Whether ${this.originalSelector.toString()} has the label ${this.label.toString()}`;
 
   constructor (entity: SingleEntity, label: LabelClass) {
-    this.originalSelector = entity;
+    this.originalSelector = cloneDeep(entity);
+
     this.label = label;
 
-    if (entity.arguments) {
-      if (entity.arguments.tag) {
-        if (typeof entity.arguments.tag === 'string')
-          entity.arguments.tag = [ entity.arguments.tag, label.name ];
-        else
-          entity.arguments.tag = [ ...entity.arguments.tag, label.name ];
-      }
-      else entity.arguments.tag = label.name;
-    }
-    else entity.arguments = { tag: label.name } as SelectorProperties<true, false>;
+    let selector = entity;
 
-    this.selector = entity;
+    if (selector.arguments) {
+      if (selector.arguments.tag) {
+        if (typeof selector.arguments.tag === 'string')
+          selector.arguments.tag = [ selector.arguments.tag, label.name ];
+        else
+          selector.arguments.tag = [ ...selector.arguments.tag, label.name ];
+      }
+      else selector.arguments.tag = label.name;
+    }
+    else selector.arguments = { tag: label.name } as SelectorProperties<true, false>;
+
+    this.selector = selector;
   }
 }
 
