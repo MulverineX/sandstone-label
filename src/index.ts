@@ -1,9 +1,6 @@
-import { tag, teleport } from 'sandstone/commands';
-import { MCFunction } from 'sandstone/core';
-import { Selector, SelectorClass } from 'sandstone/variables';
-import { _ } from 'sandstone/_internals';
-import { ConditionType } from 'sandstone/_internals/flow/conditions';
-import { SelectorProperties } from 'sandstone/_internals/variables/selector';
+import { SelectorClass, Selector, tag, _ } from "sandstone";
+import { ConditionType } from "sandstone/flow/conditions";
+import { SelectorProperties } from "sandstone/variables";
 
 type SingleEntity = SelectorClass<true, boolean>;
 
@@ -21,7 +18,7 @@ export class LabelClass {
    */
   public description: string | boolean = false;
 
-  public LabelHolder (entity: SingleEntity | '@s' | '@p' | '@r') {
+  public LabelHolder = (entity: SingleEntity | '@s' | '@p' | '@r') => {
     if (typeof entity === 'string') 
       return new EntityLabel(Selector(entity), this);
     else
@@ -38,6 +35,32 @@ export class LabelClass {
 
     if (description) this.description = description;
   }
+}
+
+// voodoo code I don't really understand
+export type LabelInstance = (
+  Omit<LabelClass, 'LabelHolder'> & LabelClass['LabelHolder']
+)
+
+/**
+ * Creates a new label
+ * @param label Label/tag name
+ * @param description Label description (optional)
+ */
+ export function Label(label: string, description: string | false = false): LabelInstance {
+  const createdLabel = new LabelClass(label, description);
+  const value = createdLabel.LabelHolder;
+
+  const { name: _, ...labelExceptName } = createdLabel;
+  const labelInstance = Object.assign(
+    createdLabel.LabelHolder,
+    labelExceptName
+  );
+  const descriptor = Object.getOwnPropertyDescriptor(value, 'name');
+  descriptor.value = createdLabel.name;
+  Object.defineProperty(value, 'name', descriptor);
+
+  return labelInstance;
 }
 
 export class EntityLabel {
@@ -117,58 +140,4 @@ export class EntityLabel {
 
     this.selector = selector;
   }
-}
-
-/**
- * Creates a new label
- * @param label Label/tag name
- * @param description Label description (optional)
- */
-export function createLabel(label: string, description: string | false = false) {
-  return new LabelClass(label, description);
-}
-
-type input = LabelClass | string;
-
-const self = (label: input) => 
-  (typeof label === 'string' ? createLabel(label) : label).LabelHolder('@s');
-
-/**
- * Adds label to `@s`
- * @param label Label
- */
-export function addLabel (label: input) {
-  const target = self(label);
-  target.add();
-  return target;
-}
-
-/**
- * Removes label from `@s`
- * @param label Label
- */
-export function removeLabel(label: input) {
-  const target = self(label);
-  target.remove();
-  return target;
-}
-
-export function setLabel (label: input, set: boolean | ConditionType) {
-  const target = self(label);
-  target.set(set);
-  return target;
-}
-
-export function toggleLabel (label: input) {
-  const target = self(label);
-  target.toggle();
-  return target;
-}
-
-/**
- * Test for label on `@s`
- * @param label Label
- */
-export function hasLabel(label: input) {
-  return self(label).test
 }
