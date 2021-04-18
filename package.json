@@ -1,6 +1,6 @@
 {
   "name": "sandstone-label",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A data pack library created for Sandstone",
   "keywords": [],
   "author": "MulverineX",
@@ -12,7 +12,7 @@
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "peerDependencies": {
-    "sandstone": "^0.11.1"
+    "sandstone": "^0.12.2"
   },
   "devDependencies": {
     "@types/node": "^14.14.20",
